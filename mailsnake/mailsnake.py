@@ -4,6 +4,8 @@ try:
 except ImportError:
     import json
 
+from exceptions import *
+
 class MailSnake(object):
     def __init__(self, apikey = '', extra_params = {}):
         """
@@ -26,9 +28,25 @@ class MailSnake(object):
         post_data = urllib2.quote(json.dumps(params))
         headers = {'Content-Type': 'application/json'}
         request = urllib2.Request(url, post_data, headers)
-        response = urllib2.urlopen(request)
 
-        return json.loads(response.read())
+        try:
+            response = urllib2.urlopen(request)
+        except urllib2.URLError, e:
+            raise NetworkTimeoutException(e.reason)
+        except urllib2.HTTPError, e:
+            raise HTTPRequestException(e.reason)
+        
+        try:
+            rsp = json.loads(response.read())
+        except json.JSONDecodeError, e:
+            raise ParseException(e.reason)
+
+        if 'error' in rsp and 'code' in rsp:
+            try:
+                Err = exception_for_code(rsp['code'])
+            except KeyError:
+                raise SystemException(rsp['error'])
+            raise Err(rsp['error'])
 
     def __getattr__(self, method_name):
 
