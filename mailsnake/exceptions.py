@@ -128,7 +128,7 @@ _ERROR_MAP = {
     107: InvalidIPException,
     108: UserDoesExistException,
 
-    # 120: User - Action Related Errors 
+    # 120: User - Action Related Errors
     120: UserInvalidActionException,
     121: UserMissingEmailException,
     122: UserCannotSendCampaignException,
@@ -141,7 +141,7 @@ _ERROR_MAP = {
     # 200: List Error
     200: ListDoesNotExistException,
 
-    # 210: List - Basic Action Errors 
+    # 210: List - Basic Action Errors
     210: ListInvalidInterestFieldTypeException,
     211: ListInvalidOptionException,
     212: ListInvalidUnsubMemberException,
@@ -149,12 +149,12 @@ _ERROR_MAP = {
     214: ListAlreadySubscribedException,
     215: ListNotSubscribedException,
 
-    # 220: List - Import Related  Errors 
+    # 220: List - Import Related  Errors
     220: ListInvalidImportException,
     221: MCPastedListDuplicateException,
     222: MCPastedListInvalidImportException,
 
-    # 230: List - Email Related Errors 
+    # 230: List - Email Related Errors
     230: EmailAlreadySubscribedException,
     231: EmailAlreadyUnsubscribedException,
     232: EmailNotExistsException,
@@ -209,7 +209,7 @@ _ERROR_MAP = {
     507: InvalidFolderException,
     508: InvalidURLException,
 
-    # 550: Generic Unknown Errors 
+    # 550: Generic Unknown Errors
     550: ModuleUnknownException,
     551: MonthlyPlanUnknownException,
     552: OrderTypeUnknownException,
@@ -217,6 +217,7 @@ _ERROR_MAP = {
     554: InvalidPagingStartException,
     555: MaxSizeReachedException,
 }
+
 
 def exception_for_code(code):
     return _ERROR_MAP[code]
