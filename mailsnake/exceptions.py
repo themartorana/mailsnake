@@ -7,7 +7,7 @@ class ParseException(SystemException): pass
 
 class UserException(MailSnakeException): pass
 class UserUnknownException(UserException): pass
-class UserDisabledException(): pass
+class UserDisabledException(UserException): pass
 class UserDoesNotExistException(UserException) :pass
 class UserNotApprovedException(UserException) :pass
 class InvalidApiKeyException(UserException) :pass

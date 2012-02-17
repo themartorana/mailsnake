@@ -11,10 +11,13 @@ except ImportError:
         except ImportError:
             raise ImportError('A json library is required to use this python library. Lol, yay for being verbose. ;)')
 
-from exceptions import *
+from .exceptions import *
 
 
 class MailSnake(object):
+    dc = 'us1'
+    base_api_url = 'https://%(dc)s.api.mailchimp.com/1.3/?method=%(method)s'
+
     def __init__(self, apikey='', extra_params=None):
         """
             Cache API key and address.
@@ -25,13 +28,11 @@ class MailSnake(object):
         extra_params = extra_params or {}
         self.default_params.update(extra_params)
 
-        dc = 'us1'
         if '-' in self.apikey:
-            dc = self.apikey.split('-')[1]
-        self.base_api_url = 'https://%s.api.mailchimp.com/1.3/?method=' % dc
+            self.dc = self.apikey.split('-')[1]
 
     def call(self, method, params=None):
-        url = self.base_api_url + method
+        url = self.base_api_url % {'dc': self.dc, 'method': method}
         params = params or {}
         params.update(self.default_params)
 
@@ -42,9 +43,9 @@ class MailSnake(object):
         try:
             response = urllib2.urlopen(request)
         except urllib2.URLError, e:
-            raise NetworkTimeoutException(e.reason)
+            raise NetworkTimeoutException(e.code)
         except urllib2.HTTPError, e:
-            raise HTTPRequestException(e.reason)
+            raise HTTPRequestException(e.code)
 
         try:
             rsp = json.loads(response.read())
