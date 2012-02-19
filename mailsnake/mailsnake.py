@@ -52,11 +52,6 @@ class MailSnake(object):
         except json.JSONDecodeError, e:
             raise ParseException(e.reason)
 
-        try: #check if it's iterable
-            iterator = iter(rsp)
-        except TypeError, te:
-            return rsp
-
         if not isinstance(rsp, (bool, basestring)) and 'error' in rsp and 'code' in rsp:
             try:
                 Err = exception_for_code(rsp['code'])
