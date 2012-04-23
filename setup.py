@@ -7,6 +7,7 @@ setup(
     name='mailsnake',
     version=mailsnake.__version__,
     description='MailChimp API v1.3 wrapper for Python.',
+    long_description=open('README.rst').read(),
     author=mailsnake.__author__,
     url='https://github.com/michaelhelmick/python-mailsnake',
     packages=find_packages(),
