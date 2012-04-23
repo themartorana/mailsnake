@@ -43,7 +43,7 @@ class MailSnake(object):
         try:
             response = urllib2.urlopen(request)
         except urllib2.URLError, e:
-            raise NetworkTimeoutException(e.code)
+            raise NetworkTimeoutException(str(e.reason))
         except urllib2.HTTPError, e:
             raise HTTPRequestException(e.code)
 
