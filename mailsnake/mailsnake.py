@@ -52,7 +52,7 @@ class MailSnake(object):
         except json.JSONDecodeError, e:
             raise ParseException(e.reason)
 
-        if not isinstance(rsp, (bool, basestring)) and 'error' in rsp and 'code' in rsp:
+        if not isinstance(rsp, (int, bool, basestring)) and 'error' in rsp and 'code' in rsp:
             try:
                 Err = exception_for_code(rsp['code'])
             except KeyError:
