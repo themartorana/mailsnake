@@ -6,6 +6,7 @@ __credits__ = [
     'John-Kim Murphy',
     'Michael Helmick',
     'vlinhart',
-    'starenka'
+    'starenka',
+    'Ryan Tucker'
 ]
-__version__ = '1.3.4'
+__version__ = '1.3.5'
