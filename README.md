@@ -28,7 +28,10 @@ API Documentation
 -----------------
 
 Note that in order to use the STS API you first need to enable the Amazon Simple Email Service [integration](https://us4.admin.mailchimp.com/account/integrations/ "MailChimp Integrations") in MailChimp.
+
 [MailChimp API v1.3 documentation](http://apidocs.mailchimp.com/api/1.3/ "MCAPI v1.3")
+
 [MailChimp STS API v1.3 documentation](http://apidocs.mailchimp.com/sts/1.0/ "STS API v1.0")
+
 [MailChimp Export API v1.0 documentation](http://apidocs.mailchimp.com/export/1.0/ "Export API v1.0")
 
