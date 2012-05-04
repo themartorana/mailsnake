@@ -38,13 +38,18 @@ class MailSnake(object):
             post_data = urllib2.quote(json.dumps(all_params))
             headers = {'Content-Type':'application/json'}
         else:
-            url += '.json/'
-            post_data = http_build_query(all_params)
             headers = {'Content-Type':'application/x-www-form-urlencoded'}
+            post_data = http_build_query(all_params)
+            if self.api == 'sts':
+                url += '.json/'
+            else:
+                # Use GET for the Export API
+                url += '?' + post_data
+                post_data = ''
         request = urllib2.Request(url, post_data, headers)
         response = urllib2.urlopen(request)
 
-        return json.loads(response.read())
+        return response.read()
 
     def __getattr__(self, method_name):
 
