@@ -14,8 +14,8 @@ Usage
 The default API is MCAPI, but STS or Export can be used by supplying an api argument set to 'sts' or 'export' respectively. Here's an example:
 
 	>>> mcsts = MailSnake('YOUR MAILCHIMP API KEY', api='sts')
-	>>> mcsts.GetTags()
-    '{"SentLast24Hours":"12.0","Max24HourSend":"10000.0","MaxSendRate":"5.0"}'
+	>>> mcsts.GetSendQuota()
+    {'Max24HourSend': '10000.0', 'SentLast24Hours': '0.0', 'MaxSendRate': '5.0'}
 
 Note
 ----

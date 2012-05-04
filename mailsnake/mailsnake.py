@@ -49,7 +49,7 @@ class MailSnake(object):
         request = urllib2.Request(url, post_data, headers)
         response = urllib2.urlopen(request)
 
-        return response.read()
+        return json.loads(response.read())
 
     def __getattr__(self, method_name):
 
