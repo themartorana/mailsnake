@@ -11,7 +11,9 @@ except ImportError:
         try:
             from django.utils import simplejson as json
         except ImportError:
-            raise ImportError('A json library is required to use this python library. Lol, yay for being verbose. ;)')
+            raise ImportError('A json library is required to use ' + \
+                             'this python library. Lol, yay for ' + \
+                             'being verbose. ;)')
 
 from .exceptions import *
 
@@ -36,7 +38,7 @@ class MailSnake(object):
             'export':('api','export/1.0/')
         }
         self.api_url = 'https://%s.%s.mailchimp.com/%s' % \
-                       ((dc,) + api_info[api])
+                       ((self.dc,) + api_info[api])
 
     def call(self, method, params=None):
         url = self.api_url + method
@@ -44,11 +46,12 @@ class MailSnake(object):
         params.update(self.default_params)
 
         if self.api == 'api':
-            post_data = urllib2.quote(json.dumps(all_params))
+            post_data = urllib2.quote(json.dumps(params))
             headers = {'Content-Type':'application/json'}
         else:
-            headers = {'Content-Type':'application/x-www-form-urlencoded'}
-            post_data = http_build_query(all_params)
+            headers = {'Content-Type':
+                      'application/x-www-form-urlencoded'}
+            post_data = http_build_query(params)
             if self.api == 'sts':
                 url += '.json/'
             else:
@@ -65,11 +68,15 @@ class MailSnake(object):
             raise HTTPRequestException(e.code)
 
         try:
-            rsp = json.loads(response.read())
+            if self.api == 'export':
+                rsp = [json.loads(i) for i in response.readlines()]
+            else:
+                rsp = json.loads(response.read())
         except json.JSONDecodeError, e:
-            raise ParseException(e.reason)
+            raise ParseException(e.message)
 
-        if not isinstance(rsp, (int, bool, basestring)) and 'error' in rsp and 'code' in rsp:
+        if not isinstance(rsp, (int, bool, basestring)) and \
+                'error' in rsp and 'code' in rsp:
             try:
                 Err = exception_for_code(rsp['code'])
             except KeyError:
@@ -95,34 +102,32 @@ class MailSnake(object):
 ##################################################
 def http_build_query(params, topkey = ''): 
     if len(params) == 0:
-        return ""
+        return ''
 
-    result = ""
+    result = ''
  
     # is a dictionary?
     if type (params) is dict:
         for key in params.keys():
-            newkey = quote (key)
+            newkey = quote(key)
             if topkey != '':
-              newkey = topkey + quote('[' + key + ']')
+                newkey = topkey + quote('[' + key + ']')
  
             if type(params[key]) is dict:
-                result += http_build_query (params[key], newkey)
-
+                result += http_build_query(params[key], newkey)
             elif type(params[key]) is list:
                 i = 0
                 for val in params[key]:
                     result += newkey + quote('[' + str(i) + ']') + \
-                              "=" + quote(str(val)) + "&"
+                              '=' + quote(str(val)) + '&'
                     i = i + 1
-
             # boolean should have special treatment as well
             elif type(params[key]) is bool:
-                result += newkey + "=" + quote(str(int(params[key]))) + "&"
-
+                result += newkey + '=' + \
+                          quote(str(int(params[key]))) + '&'
             # assume string (integers and floats work well)
             else:
-                result += newkey + "=" + quote(str(params[key])) + "&"
+                result += str(newkey) + '=' + quote(str(params[key])) + '&'
 
     # remove the last '&'
     if (result) and (topkey == '') and (result[-1] == '&'):
