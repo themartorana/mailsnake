@@ -7,6 +7,7 @@ __credits__ = [
     'Michael Helmick',
     'vlinhart',
     'starenka',
-    'Ryan Tucker'
+    'Ryan Tucker',
+    'Brad Pitcher'
 ]
-__version__ = '1.3.5'
+__version__ = '1.4.0'
